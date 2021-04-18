@@ -14,7 +14,7 @@ const UserPlaylist = () => {
     localStorage.setItem('my-list', JSON.stringify(userList));
   });
 
-  return <div className="flex-grow">User Playlist</div>;
+  return <div className="flex-grow min-h-screen">User Playlist</div>;
 };
 
 export default UserPlaylist;
