@@ -1,7 +1,16 @@
+import React from 'react';
 import './App.css';
 
+import Navbar from './components/Navbar/Navbar';
+import Home from './components/Home/Home';
+
 function App() {
-  return <div className="bg-blue">React APP</div>;
+  return (
+    <div>
+      <Navbar />
+      <Home />
+    </div>
+  );
 }
 
 export default App;
