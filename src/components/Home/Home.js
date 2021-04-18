@@ -4,37 +4,49 @@ import { v4 as uuid } from 'uuid';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import _ from 'lodash';
 
+import Card from '../Card/Card';
 import UserPlaylist from '../Panes/UserPlaylist';
 import SpotifyPlaylist from '../Panes/SpotifyPlaylist';
 
-const item = {
-  id: uuid(),
-  name: 'Clean the house',
-};
-
-const item2 = {
-  id: uuid(),
-  name: 'Wash the Car',
-};
-
-const Home = ({ data }) => {
-  console.log('data here = ', data);
+const Home = ({ dataSpotify }) => {
+  console.log('data spotify = ', dataSpotify);
 
   const [state, setState] = useState({
     userlist: {
       title: 'User List',
-      items: [item, item2],
+      items: [],
     },
     spotifylist: {
       title: 'Spotify List',
-      items: [],
+      items: dataSpotify,
     },
   });
 
-  const handleDragEnd = ({ destination, source }) => {
-    console.log('dest:', destination);
-    console.log('src:', source);
+  useEffect(() => {
+    try {
+      const userdata = JSON.parse(localStorage.getItem('list'));
 
+      if (userdata !== [] && userdata !== null) {
+        setState((prev) => {
+          prev = { ...prev };
+          prev['userlist'].items = userdata;
+          return prev;
+        });
+      }
+    } catch (err) {
+      console.log('error in getting local storage');
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('list', JSON.stringify(state.userlist.items));
+    } catch (err) {
+      console.log('Error in setting local storage');
+    }
+  });
+
+  const handleDragEnd = ({ destination, source }) => {
     if (!destination) {
       return;
     }
@@ -69,9 +81,8 @@ const Home = ({ data }) => {
 
       <DragDropContext onDragEnd={handleDragEnd}>
         {_.map(state, (data, key) => {
-          console.log(data, key);
           return (
-            <div key={key} className="pr-10 border-black min-h-screen">
+            <div key={key} className="w-full p-2">
               <h3>{data.title}</h3>
               <Droppable droppableId={key}>
                 {(provided, snapshot) => {
@@ -84,20 +95,17 @@ const Home = ({ data }) => {
                       {data.items.map((el, index) => {
                         return (
                           <Draggable
-                            key={el.id}
+                            key={el.uuid}
                             index={index}
-                            draggableId={el.id}
+                            draggableId={el.uuid}
                           >
                             {(provided, snapshot) => {
                               return (
-                                <div
-                                  className="text-lg p-5 bg-blue-600"
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                >
-                                  {el.name}
-                                </div>
+                                <Card
+                                  provided={provided}
+                                  data={el}
+                                  snapshot={snapshot}
+                                />
                               );
                             }}
                           </Draggable>

@@ -12,7 +12,7 @@ import Navbar from './components/Navbar/Navbar';
 import Home from './components/Home/Home';
 
 function App() {
-  const spotifyClient = '84d766bc595e4f4e8c0169f861d4d8e2';
+  const spotifyClient = 'd9549e8167064e369e7c84b6bba6da7d';
   const token = Cookies.get('spotifyAuthToken');
 
   const [loading, setLoading] = useState(false);
@@ -30,7 +30,7 @@ function App() {
         playlistData.forEach((x, _) => {
           x['uuid'] = uuid();
         });
-
+        console.log('res data', res.data.playlists.items);
         setData(res.data.playlists.items);
       } catch (err) {
         console.log('Error in fetching API call');
@@ -46,7 +46,11 @@ function App() {
       {token ? (
         <div>
           <Navbar />
-          {loading ? <div className="animate-spin" /> : <Home data={data} />}
+          {loading ? (
+            <div className="animate-spin" />
+          ) : (
+            <Home dataSpotify={data} />
+          )}
         </div>
       ) : (
         <SpotifyAuth
