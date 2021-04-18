@@ -1,23 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { SpotifyAuthListener } from 'react-spotify-auth';
-import { v4 as uuid } from 'uuid';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import _ from 'lodash';
 
-import Card from '../Card/Card';
-import UserPlaylist from '../Panes/UserPlaylist';
-import SpotifyPlaylist from '../Panes/SpotifyPlaylist';
+import Column from '../Column/Column';
 
 const Home = ({ dataSpotify }) => {
-  console.log('data spotify = ', dataSpotify);
+  // console.log('data spotify = ', dataSpotify);
 
   const [state, setState] = useState({
     userlist: {
-      title: 'User List',
+      title: 'My Playlists',
       items: [],
     },
     spotifylist: {
-      title: 'Spotify List',
+      title: 'Featured Playlists',
       items: dataSpotify,
     },
   });
@@ -75,45 +72,18 @@ const Home = ({ dataSpotify }) => {
   };
 
   return (
-    <div className="flex w-full justify-around">
-      {/* <SpotifyPlaylist data={data} />
-      <UserPlaylist /> */}
-
+    <div className="pt-2 flex w-full justify-around text-gray-100 bg-black ">
       <DragDropContext onDragEnd={handleDragEnd}>
         {_.map(state, (data, key) => {
           return (
-            <div key={key} className="w-full p-2">
-              <h3>{data.title}</h3>
+            <div
+              key={key}
+              className="w-full pt-4 m-4 rounded-xl bg-gray-600 text-center "
+            >
+              <div className="text-3xl font-extrabold">{data.title}</div>
               <Droppable droppableId={key}>
-                {(provided, snapshot) => {
-                  return (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      className="w-full bg-gray-600 p-10 flex flex-col"
-                    >
-                      {data.items.map((el, index) => {
-                        return (
-                          <Draggable
-                            key={el.uuid}
-                            index={index}
-                            draggableId={el.uuid}
-                          >
-                            {(provided, snapshot) => {
-                              return (
-                                <Card
-                                  provided={provided}
-                                  data={el}
-                                  snapshot={snapshot}
-                                />
-                              );
-                            }}
-                          </Draggable>
-                        );
-                      })}
-                      {provided.placeholder}
-                    </div>
-                  );
+                {(provided) => {
+                  return <Column provided={provided} data={data} />;
                 }}
               </Droppable>
             </div>

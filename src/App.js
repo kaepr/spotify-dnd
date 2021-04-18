@@ -33,12 +33,14 @@ function App() {
         console.log('res data', res.data.playlists.items);
         setData(res.data.playlists.items);
       } catch (err) {
+        Cookies.remove('spotifyAuthToken');
         console.log('Error in fetching API call');
       }
       setLoading(false);
     };
 
     getPlayists();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
