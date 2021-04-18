@@ -24,18 +24,3 @@ ul {
   font-weight: normal;
   font-family: 'Work Sans', sans-serif;
 }
-
-html,
-body,
-#root {
-  height: 100%;
-}
-
-/* body {
-  background-color: #191414;
-} */
-
-/* img {
-  max-width: 100%;
-  height: auto;
-} */
