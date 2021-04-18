@@ -6,7 +6,7 @@ const Column = ({ provided, data }) => {
     <div
       ref={provided.innerRef}
       {...provided.droppableProps}
-      className="w-full p-2 pr-4 flex flex-col"
+      className="w-full p-2 flex flex-col bg-gray-200 rounded-3xl"
     >
       {data.items.map((carddata, index) => {
         return (

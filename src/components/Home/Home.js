@@ -72,15 +72,15 @@ const Home = ({ dataSpotify }) => {
   };
 
   return (
-    <div className="pt-2 flex w-full justify-around text-gray-100 bg-black ">
+    <div className="flex w-full justify-around text-gray-100 bg-black ">
       <DragDropContext onDragEnd={handleDragEnd}>
         {_.map(state, (data, key) => {
           return (
             <div
               key={key}
-              className="w-full pt-4 m-4 rounded-xl bg-gray-600 text-center "
+              className="w-full m-4 rounded-xl text-center min-h-screen"
             >
-              <div className="text-3xl font-extrabold">{data.title}</div>
+              <div className="text-3xl font-extrabold pb-2">{data.title}</div>
               <Droppable droppableId={key}>
                 {(provided) => {
                   return <Column provided={provided} data={data} />;
